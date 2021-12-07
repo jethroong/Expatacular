@@ -9,8 +9,8 @@ Project: WADII_project
 - Yi Mon Mon Aung
 
 # How to set up this application
-Online:
-https://maars202.github.io/EXPATacular/index.html
+Link to Page:
+https://jethroong.github.io/Expatacular/index.html
 
 Local:
 Insert "tourist_app" folder into web root and launch http://localhost/tourist_app/index.html in browser
