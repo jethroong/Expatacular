@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <title>Translator</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" 
+    crossorigin="anonymous">
+
+   <!-- Vue 3: development -->
+   <script src="https://unpkg.com/vue@next"></script>
+
+   <!-- Axios -->
+   <script src="https://unpkg.com/axios/dist/axios.js"></script>
+
+   <link rel="stylesheet" href="./css/translator.css">
+</head>
+
+<body>
+<div style = "align-items: center;" id="app">
+    <!-- NAVBAR -->
+    <div class="row" style = "background-color:#F2F2F2;">
+      <nav class="ps-sm-0 ps-md-5 navbar navbar-expand-md navbar-light pt-md-4 fixed-top" style = "background-color:#F2F2F2;">
+          <div class="container-fluid ps-3">
+              <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+              <button class="navbar-toggler m-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNavDropdown">
+              <ul class="navbar-nav">
+                  <li class="nav-item">
+                  <a class="nav-link" href="./index.html">Home</a>
+                  </li>
+                  <li class="nav-item">
+                  <a class="nav-link" href="./about_page.html">About</a>
+                  </li>
+                  <li class="nav-item">
+                  <a class="nav-link" href="./Community/Forum/forum.html">Community</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="./foodAndPlaces.html">Food & Places</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="./trivia.html">Trivia!</a>
+                  </li>
+                  <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle active"  href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Tools
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                      <li><a class="dropdown-item" href="./tools.html">Dashboard</a></li>
+                      <li><a class="dropdown-item" href="./currency.html">Currency Converter</a></li>
+                      <li><a class="dropdown-item" href="./emergency_contact.html">Emergency Contacts</a></li>
+                      <li><a class="dropdown-item active" aria-current="page" href="./translation.html">Translator</a></li>
+                      <li><a class="dropdown-item" href="./weather.html">Weather Forecast</a></li>
+                      <li><a class="dropdown-item" href="./covid.html">Covid Stats</a></li>
+                  </ul>
+                  </li>
+              </ul>
+              </div>
+          </div>
+      </nav>
+
+  </div>
+  <!-- NAVBAR -->
+
+    <div class="bg-cover w-100 translator_cover" ></div>
+    <div class="container-fluid container" >
+
+        <div class="row justify-content-center text-center" style="margin-top: 100px;">
+            <div class="col-sm-5" >
+            <div class="card" style="height: 90%;">
+                <div class="card-body text-center">
+                    <form> 
+                        <div class="form-group text-center">
+                          <select class="form-select" id="src_lang" v-model="src_lang">
+                          </select>
+                        </div>
+                        <div class="form-group text-left">
+                          <label for="exampleFormControlTextarea1">Type your text here:</label>
+                          <textarea placeholder="Language will be auto-detected" class="form-control" id="text_" rows="3" v-model="text"></textarea>
+                          
+                        </div>
+                      </form>
+                </div>
+            </div>
+            </div>
+
+            <div class="col-sm-5" >
+                <div class="card" style="height: 90%;">
+                    <div class="card-body text-center">
+                        <form>
+                          
+
+
+                            <div class="form-group text-center">
+                              <select class="form-select dropdown-toggle" id="target_lang" v-model="target_lang">
+                              </select>
+
+                              
+
+
+                            </div>
+                            
+                            <div class="form-group text-center" >
+                              <p class="h4" id = "translated">Translation</p>
+                            </div>
+
+                            
+
+
+
+                          </form>
+                    </div>
+                </div>
+                </div>
+        </div>
+
+        <div class="row" style="padding: 100px;">
+            <div class="col-sm-12 text-center">
+                <a href="#" class="btn btn-success" onclick="preprocess_translate()">Translate</a>
+            </div>
+
+          </div>
+          
+        
+
+
+        
+    </div>
+
+    <!-- <div class="container-fluid container bg-secondary">
+        
+    </div> -->
+
+</div>
+
+<script>
+
+
+langs = {"Afrikaans":"af","Albanian":"sq","Amharic":"am","Arabic":"ar","Armenian":"hy","Azerbaijani":"az","Basque":"eu","Belarusian":"be","Bengali":"bn","Bosnian":"bs","Bulgarian":"bg","Catalan":"ca","Cebuano":"ceb","Chichewa":"ny","Chinese (Simplified)":"zh","Chinese": "zh-CN","Chinese (Traditional)":"zh-TW","Corsican":"co","Croatian":"hr","Czech":"cs","Danish":"da","Dutch":"nl","English":"en","Esperanto":"eo","Estonian":"et","Filipino":"tl","Finnish":"fi","French":"fr","Frisian":"fy","Galician":"gl","Georgian":"ka","German":"de","Greek":"el","Gujarati":"gu","Haitian Creole":"ht","Hausa":"ha","Hawaiian":"haw","Hebrew":"he","Hindi":"hi","Hmong":"hmn","Hungarian":"hu","Icelandic":"is","Igbo":"ig","Indonesian":"id","Irish":"ga","Italian":"it","Japanese":"ja","Javanese":"jw","Kannada":"kn","Kazakh":"kk","Khmer":"km","Kinyarwanda":"rw","Korean":"ko","Kurdish (Kurmanji)":"ku","Kyrgyz":"ky","Lao":"lo","Latin":"la","Latvian":"lv","Lithuanian":"lt","Luxembourgish":"lb","Macedonian":"mk","Malagasy":"mg","Malay":"ms","Malayalam":"ml","Maltese":"mt","Maori":"mi","Marathi":"mr","Mongolian":"mn","Myanmar (Burmese)":"my","Nepali":"ne","Norwegian":"no","Odia (Oriya)":"or","Pashto":"ps","Persian":"fa","Polish":"pl","Portuguese":"pt","Punjabi":"pa","Romanian":"ro","Russian":"ru","Samoan":"sm","Scots Gaelic":"gd","Serbian":"sr","Sesotho":"st","Shona":"sn","Sindhi":"sd","Sinhala":"si","Slovak":"sk","Slovenian":"sl","Somali":"so","Spanish":"es","Sundanese":"su","Swahili":"sw","Swedish":"sv","Tajik":"tg","Tamil":"ta","Tatar":"tt","Telugu":"te","Thai":"th","Turkish":"tr","Turkmen":"tk","Ukrainian":"uk","Urdu":"ur","Uyghur":"ug","Uzbek":"uz","Vietnamese":"vi","Welsh":"cy","Xhosa":"xh","Yiddish":"yi","Yoruba":"yo","Zulu":"zu"}
+
+
+  function adding_options(tag){
+    src_lang_select = document.getElementById(tag)
+    options = ``
+    for ( const [key, value] of Object.entries(langs)){
+    opt = `<option value="${value}">${key}</option>`
+    // console.log(key, value)
+    options += opt
+  }
+  src_lang_select.innerHTML += options
+  }
+
+  adding_options("src_lang")
+  adding_options("target_lang")
+
+  // initially set to english unless changed:
+  document.getElementById("target_lang").value = "en"
+  document.getElementById("src_lang").value = "en"
+
+  async function preprocess_translate(){
+    // if selected then set src_lang as selection else 
+    // use detect lang to set src_lang
+//     console.log("before processing val: ", document.getElementById("src_lang").value)
+    // if (src_lang = document.getElementById("src_lang").value != null){
+    //   process_translate()
+    // }else{
+      var data = JSON.stringify({
+        "text": document.getElementById("text_").value
+      });
+
+      var config = {
+        method: 'post',
+        url: 'https://expatacular.herokuapp.com/api/users/detectLanguage',
+        headers: { 
+          'Content-Type': 'application/json'
+        },
+        data : data
+      };
+      
+      src_lang_code = await axios(config)
+      .then(function (response) {
+        lang_src = JSON.stringify(response.data[0].languages[0].languageCode)
+//         console.log("LANGUAGE ISSSS: ", JSON.stringify(response.data[0].languages[0].languageCode));
+//         console.log(lang_src.toLowerCase())
+        // src_lang_code = response.data[0].languages[0].languageCode
+        // console.log("hello2")
+        // document.getElementById("src_lang").value = response.data[0].languages[0].languageCode
+        return response.data[0].languages[0].languageCode
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+      document.getElementById("src_lang").value = await src_lang_code
+      process_translate()
+    // }
+
+  }
+
+
+  function process_translate(){
+    src_lang = document.getElementById("src_lang").value
+    target_lang = document.getElementById("target_lang").value
+    text = document.getElementById("text_").value
+    result_tag = document.getElementById("translated")
+//     console.log(src_lang, target_lang, text)
+
+    var data = JSON.stringify({
+      "text": text,
+      "src_lang": src_lang,
+      "target_lang": target_lang
+    });
+
+    var config = {
+      method: 'post',
+      url: 'https://expatacular.herokuapp.com/api/users/translateText',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      data : data
+    };
+
+    axios(config)
+    .then(function (response) {
+//       console.log(JSON.stringify(response.data[0]));
+      result_tag.innerHTML = response.data[0].translations[0].translatedText
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+    // document.getElementById("src_lang").value = null
+    // document.getElementById("target_lang").value = "en"
+
+
+  }
+
+  
+
+
+</script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+  <!-- Bootstrap JS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+</body>
+</html>
