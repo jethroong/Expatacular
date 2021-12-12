@@ -1,6 +1,3 @@
-# EXPATacular
-Project: WADII_project
-
 ## Developers:
 - Goh Soon Hao
 - Jethro Ong Yong En
